@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Красное Знамя</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(180deg, #5a0a0a 0%, #B30000 100%);
+            background-attachment: fixed;
+            color: #FFCC00;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Шапка сайта */
+        header {
+            background-color: #B30000;
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .logo-space {
+            flex: 1;
+        }
+
+        nav {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 2px solid #FFCC00;
+            color: #FFCC00;
+            padding: 8px 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background-color: #FFCC00;
+            color: #B30000;
+            box-shadow: 0 0 10px #FFCC00;
+        }
+
+        .right-space {
+            flex: 1;
+            text-align: right;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: #FFCC00;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Контентные блоки */
+        .container {
+            margin-top: 80px;
+            flex: 1;
+        }
+
+        section {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid rgba(255, 204, 0, 0.1);
+        }
+
+        h1, h2 {
+            font-size: 2.8rem;
+            color: #FFCC00;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-weight: 1000;
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            line-height: 1.8;
+            color: #FFCC00;
+            margin-bottom: 30px;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Блок счетчика */
+        .counter-container {
+            position: relative;
+            width: 120px;
+            height: 140px;
+            margin: 20px auto 35px auto;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .counter-window {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .digit-strip {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            top: 0;
+        }
+
+        .digit {
+            font-size: 6.5rem;
+            font-weight: 900;
+            color: #FFCC00;
+            height: 140px;
+            line-height: 140px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
+        }
+
+        /* Интерактивные кнопки взаимодействия */
+        .action-btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.join {
+            background-color: #FFCC00;
+            color: #B30000;
+        }
+
+        .action-btn.join:hover {
+            box-shadow: 0 0 20px #FFCC00;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.leave {
+            background-color: #B30000;
+            color: #FFCC00;
+            border: none;
+        }
+
+        .action-btn.leave:hover {
+            box-shadow: 0 0 20px #B30000;
+            transform: translateY(-2px);
+        }
+
+        /* Частицы конфети */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9999;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Подвал */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #FFCC00;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.95rem;
+            border-top: 2px solid #B30000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-space"></div>
+        <nav>
+            <a href="#home" class="nav-btn">Главная</a>
+            <a href="#meaning" class="nav-btn">Значение</a>
+            <a href="#history" class="nav-btn">История</a>
+            <a href="#goals" class="nav-btn">Цели</a>
+            <a href="#counter-sec" class="nav-btn">Сколько нас?</a>
+        </nav>
+        <div class="right-space">Красное знамя</div>
+    </header>
+
+    <div class="container">
+        <section id="home">
+            <h1>Справедливое будущее для каждого</h1>
+            <p style="font-weight: 800">За мир, За равенство и братство!</p>
+        </section>
+
+        <section id="meaning">
+            <h2>Значение</h2>
+            <p>Коммунизм — это власть, при которой государство контролирует все сферы жизни общества, не допускает частную собственность, кроме личного жилья и обеспечивает гражданам бесплатную медицину и образование</p>
+        </section>
+
+        <section id="history" style="padding-top: 100px;">
+            <h2>История коммунизма</h2>
+            <div class="timeline" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px; font-weight: 800;">
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Февраль 1848</span> — Карл Маркс написал манифест «Коммунистической партии»</p>
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Октябрь 1917</span> — Владимир Ленин и Лев Троцкий начинают Великую Октябрьскую революцию</p>
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Декабрь 1922</span> — Владимир Ленин создаёт Советский Союз</p>
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Май 1945</span> — Советский Союз одерживает победу над Третьим Рейхом</p>
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Декабрь 1991</span> — Распад Советского Союза</p>
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Февраль 1993</span> — Создание лево-умеренной партии КПРФ</p>
+                <p style="font-weight: 800; font-size: 22px;"><span style="color: #FFD700;">Август 2026</span> — Создание лево-радикальной партии «Красное Знамя»</p>
+            </div>
+        </section>
+
+
+        <section id="goals">
+            <h2>Главные Цели</h2>
+            <p>Доступное и качественное образование, бесплатная передовая медицина, уничтожение социального неравенства и автоматизация производств на благо человека, а не ради сверхприбылей олигархов.</p>
+        </section>
+
+        <section id="counter-sec">
+            <h2>Сколько нас?</h2>
+            <p>Присоединяйтесь к нашему движению единомышленников! Давайте вместе идти к будущему миру равенства и справедливости!</p>
+            
+            <div class="counter-container">
+                <div class="counter-window">
+                    <div class="digit-strip" id="strip">
+                        <div class="digit">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="action-btn join" id="actionBtn">Я с вами</button>
+        </section>
+    </div>
+
+    <footer>
+        ©Красное знамя, 2026
+    </footer>
+
+    <script>
+        const channel = new BroadcastChannel('red_banner_counter');
+        let globalCount = 0;
+        let userJoined = false;
+
+        const strip = document.getElementById('strip');
+        const actionBtn = document.getElementById('actionBtn');
+        const digitHeight = 140;
+
+        // Генерация звука клика
+        function playClickSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Первый щелчок
+                let osc1 = audioCtx.createOscillator();
+                let gain1 = audioCtx.createGain();
+                osc1.type = 'triangle';
+                osc1.frequency.setValueAtTime(120, audioCtx.currentTime);
+                osc1.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.04);
+                gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start();
+                osc1.stop(audioCtx.currentTime + 0.04);
+
+                // Второй микро-щелчок для эффекта механики
+                setTimeout(() => {
+                    let osc2 = audioCtx.createOscillator();
+                    let gain2 = audioCtx.createGain();
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(160, audioCtx.currentTime);
+                    osc2.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.03);
+                    gain2.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.03);
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.start();
+                    osc2.stop(audioCtx.currentTime + 0.03);
+                }, 30);
+
+            } catch (e) {
+                console.log("Audio contexts not allowed yet");
+            }
+        }
+
+        // Праздничный салют
+        function createConfetti() {
+            const colors = ['#FFCC00', '#B30000'];
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.width = Math.random() * 8 + 6 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = Math.random() * 2 + 1.5 + 's';
+                confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3500);
+            }
+        }
+
+        // Обновление ленты цифр
+        function updateCounterUI(targetValue, animate = true) {
+            // Перестраиваем ленту под текущее число
+            strip.innerHTML = '';
+            
+            // Нам нужны две цифры для плавной анимации перехода
+            if (animate) {
+                // Если идем вверх, старая цифра была меньше, если вниз - больше
+                // Но для универсальности и простоты строим ленту текущих возможных чисел
+                const currentOffset = strip.style.transform ? parseInt(strip.style.transform.replace('translateY(', '').replace('px)', '')) : 0;
+                
+                // Просто заполняем ленту до нужного числа, чтобы прокрутить к нему
+                for(let i = 0; i <= targetValue + 2; i++) {
+                    const div = document.createElement('div');
+                    div.classList.add('digit');
+                    div.innerText = i;
+                    strip.appendChild(div);
+                }
+                strip.style.transform = `translateY(-${targetValue * digitHeight}px)`;
+            } else {
+                const div = document.createElement('div');
+                div.classList.add('digit');
+                div.innerText = targetValue;
+                strip.appendChild(div);
+                strip.style.transform = `translateY(0px)`;
+            }
+
+            // Проверка на юбилейность
+            if (targetValue > 0 && targetValue % 10 === 0 && animate) {
+                createConfetti();
+            }
+        }
+
+        // Слушаем изменения от соседних вкладок
+        channel.onmessage = (event) => {
+            if (event.data.type === 'UPDATE_COUNT') {
+                globalCount = event.data.value;
+                updateCounterUI(globalCount, true);
+                playClickSound();
+            } else if (event.data.type === 'REQUEST_INITIAL') {
+                channel.postMessage({ type: 'PROVIDE_INITIAL', value: globalCount });
+            } else if (event.data.type === 'PROVIDE_INITIAL') {
+                if (globalCount < event.data.value) {
+                    globalCount = event.data.value;
+                    updateCounterUI(globalCount, false);
+                }
+            }
+        };
+
+        // Запрашиваем актуальное число при старте вкладки
+        channel.postMessage({ type: 'REQUEST_INITIAL' });
+
+        // Поведение кнопки клика
+        actionBtn.addEventListener('click', () => {
+            playClickSound();
+            if (!userJoined) {
+                globalCount++;
+                userJoined = true;
+                actionBtn.textContent = 'Я отказываюсь';
+                actionBtn.className = 'action-btn leave';
+            } else {
+                globalCount--;
+                userJoined = false;
+                actionBtn.textContent = 'Я с вами';
+                actionBtn.className = 'action-btn join';
+            }
+
+            updateCounterUI(globalCount, true);
+            channel.postMessage({ type: 'UPDATE_COUNT', value: globalCount });
+        });
+
+        // Плавный скролл к блокам меню
+        document.querySelectorAll('.nav-btn').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Инициализация при загрузке
+        updateCounterUI(globalCount, false);
+    </script>
+</body>
+</html>
